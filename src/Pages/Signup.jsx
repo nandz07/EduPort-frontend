@@ -25,7 +25,7 @@ function Signup() {
         event.preventDefault()
         setLoading(true)
         try {
-            const res = await fetch(`${BASE_URL}/authentication/user-signup`, {
+            const res = await fetch(`${BASE_URL}/authentication/user-signup/`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
