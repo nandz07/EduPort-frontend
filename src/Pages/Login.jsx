@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import singupbg from '../assets/img/register_bg_2.png'
 import { HashLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import { BASE_URL } from '../config'
 import { Link } from 'react-router-dom'
+import {authContext} from '../context/AuthContext'
 
 function Login() {
 
@@ -12,6 +13,8 @@ function Login() {
     username: '',
     password: ''
   })
+  const {dispatch}=useContext(authContext)
+
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -34,6 +37,14 @@ function Login() {
         throw new Error(message)
       }
 
+      dispatch({
+        type:'LOGIN_SUCCESS',
+        payload:{
+          user: result.data,
+          token:result.token,
+          role:result.role
+        }
+      })
       setLoading(false)
       toast.success(message)
       navigate('/')
@@ -107,7 +118,7 @@ function Login() {
                           className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                           type='submit'
                         >
-                          {loading ? <HashLoader size={35} color='#ffffff' /> : 'Create Account'}
+                          {loading ? <HashLoader size={35} color='#ffffff' /> : 'Login'}
                         </button>
                       </div>
 

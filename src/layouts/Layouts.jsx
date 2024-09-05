@@ -9,7 +9,7 @@ function Layouts() {
     <>
       <Header />
       <main>
-        <Routers/>
+        <Routers />
       </main>
       <Footer />
     </>
