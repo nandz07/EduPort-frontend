@@ -3,12 +3,13 @@ import singupbg from '../assets/img/register_bg_2.png'
 import { HashLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import { BASE_URL } from '../config'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import {authContext} from '../context/AuthContext'
 
 function Login() {
 
   const [loading, setLoading] = useState(false)
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -23,20 +24,20 @@ function Login() {
     event.preventDefault()
     setLoading(true)
     try {
-      const res = await fetch(`${BASE_URL}/authentication/user-login`, {
+      const res = await fetch(`${BASE_URL}/authentication/user-login/`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
       })
-
-      const { message } = await res.json();
+      
+      const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(message)
+        throw new Error(result.message)
       }
-
+      console.log(res)
       dispatch({
         type:'LOGIN_SUCCESS',
         payload:{
@@ -46,9 +47,10 @@ function Login() {
         }
       })
       setLoading(false)
-      toast.success(message)
+      toast.success(result.message)
       navigate('/')
     } catch (error) {
+      console.log(error)
       toast.error(error.message)
       setLoading(false)
     }

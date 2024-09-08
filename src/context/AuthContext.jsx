@@ -1,7 +1,9 @@
 import { createContext, useContext, useEffect, useReducer } from 'react'
 
+console.log(localStorage.getItem('user'))
+const user = localStorage.getItem('user');
 const initailState = {
-    user: localStorage.getItem('user') !== undefined ? JSON.parse(localStorage.getItem('user')):null,
+    user: user && user !== "undefined" ? JSON.parse(user) : null,
     role: localStorage.getItem('role') ?? null,
     token:  localStorage.getItem('token') ?? null,
     adminToken:localStorage.getItem('adminToken') ?? null
